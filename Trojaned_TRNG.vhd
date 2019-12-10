@@ -14,7 +14,7 @@ entity Trojaned_TRNG is
     -- likely to be located in the same slice)
     G_INVERTER_DEPTH : positive :=  3;
     -- The number of oscillator loops in parallel (increases randomness)
-    G_N_RINGS        : positive := 50
+    G_N_RINGS        : positive := 1
   );
   port (
     clk_sys  : in  std_logic;
@@ -25,6 +25,7 @@ end entity; -- Trojaned_TRNG
 
 architecture rtl of Trojaned_TRNG is
 
+  -- Propogation Delay Constants
   constant C_PROP_DELAY : time := 9.837 ps;
 
   type oscillator_ring_ary_t is array (natural range <>) of std_logic_vector(G_INVERTER_DEPTH-1 downto 0);
@@ -44,10 +45,12 @@ begin
   gen_oscillator_rings : for i in 0 to G_N_RINGS-1 generate
 
     -- Connect the oscillator rings in a loop (moving downward). The output (bottom) is also connected to the reset.
-    oscillator_ring(i)(0) <= not oscillator_ring(i)(1) when rst_n = '1' else '0' after (C_PROP_DELAY + (i * 63123 fs));
+    oscillator_ring(i)(0) <= not oscillator_ring(i)(1) when rst_n = '1' else '0' after (C_PROP_DELAY);
+
     gen_oscillator_ring : for j in 1 to G_INVERTER_DEPTH-1 generate
-      oscillator_ring(i)(j) <= not oscillator_ring(i)((j+1) mod G_INVERTER_DEPTH) after (C_PROP_DELAY + (i * 63521 fs) - (j * 4371 fs));
+      oscillator_ring(i)(j) <= not oscillator_ring(i)((j+1) mod G_INVERTER_DEPTH) after (C_PROP_DELAY);
     end generate; -- gen_oscillator_ring
+
   end generate; -- gen_oscillator_rings
 
   test_proc : process(rst_n)
