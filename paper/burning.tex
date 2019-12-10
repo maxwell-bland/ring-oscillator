@@ -196,7 +196,14 @@ It would potentially also involve modeling the post-processing stage of the hard
 Furthermore, if we can show that this attack is possible on modern CPUs, we will investigate varying type of attacker models to see whether one requires physical access to the hardware.
 We will also see if the OS within an SGX attack model could set up similarly ideal environments conducive to the attack.
 
-\subsection{ACM Jargon}
+\section{Evaluation}
+
+We will evaluate the effectiveness of the technique by considering its ultimate impact on the output of \texttt{/dev/hwrng/} as well as \texttt{/dev/random} and \texttt{/dev/urandom/}. 
+It is also possible to evaluate the effectiveness of a guest process in influencing the precise temperature of the TRNG unit by doing heavy or light computation.
+We may also consider the capabilities of a priviledged adversary in the performance of
+such an attack.
+
+\section{ACM Jargon}
 
 If you are new to publishing with ACM, this document is a valuable
 guide to the process of preparing your work for publication. If you
