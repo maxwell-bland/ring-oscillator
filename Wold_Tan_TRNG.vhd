@@ -3,10 +3,15 @@ library ieee;
   use ieee.numeric_std.all;
 
 -- A True Random Number Generator based on
--- Wold and Tan, "Analysis and Enhancement of Random Number Generator in FPGA Based on Oscillator Rings," International Journal of Reconfigurable Computing, Volume 2009, doi: http://dx.doi.org/10.1155/2009/501672.
+-- Wold and Tan, "Analysis and Enhancement of Random Number Generator in FPGA
+-- Based on Oscillator Rings," International Journal of Reconfigurable
+-- Computing, Volume 2009, doi: http://dx.doi.org/10.1155/2009/501672.
 entity Wold_Tan_TRNG is
   generic (
-    -- The number of inverters in each oscillator loop. A lower number gives a higher average frequency since the signal has to propagate a shorter distance for each loop, but lower variance since the inverters are more likely to be located in the same slice)
+    -- The number of inverters in each oscillator loop. A lower number gives a
+    -- higher average frequency since the signal has to propagate a shorter
+    -- distance for each loop, but lower variance since the inverters are more
+    -- likely to be located in the same slice)
     G_INVERTER_DEPTH : positive :=  3;
     -- The number of oscillator loops in parallel (increases randomness)
     G_N_RINGS        : positive := 50
