@@ -22,7 +22,7 @@ architecture rtl of trojaned_trng_top is
   component Trojaned_TRNG is
     generic (
       G_INVERTER_DEPTH : positive :=  3;
-      G_N_RINGS        : positive := 50
+      G_N_RINGS        : positive := 1
       );
     port (
       clk_sys  : in  std_logic;
@@ -102,7 +102,7 @@ begin
   u0_trng : Trojaned_TRNG
     generic map (
       G_INVERTER_DEPTH =>   3,
-      G_N_RINGS        =>  50
+      G_N_RINGS        =>  1
       )
     port map (
       clk_sys  => clk_sys_g,
