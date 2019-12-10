@@ -5,7 +5,7 @@ library ieee;
 -- Primitives
 use work.altera_primitives_components.global;
 
-entity wold_tan_trng_top is
+entity trojaned_trng_top is
   port (
      clk_sys       : in  std_logic;
 	  rst_n         : in  std_logic;
@@ -14,9 +14,9 @@ entity wold_tan_trng_top is
      count_low     : out std_logic_vector(9 downto 0);
      count_diff_o  : out std_logic_vector(25 downto 0)
   );
-end entity; -- wold_tan_trng_top
+end entity; -- trojaned_trng_top
 
-architecture rtl of wold_tan_trng_top is
+architecture rtl of trojaned_trng_top is
   constant C_COUNTER_WIDTH : integer := 26; --  >1 sec @ 50 MHz
 
   component Trojaned_TRNG is

@@ -3,13 +3,13 @@ library ieee;
   use ieee.numeric_std.all;
   use ieee.math_real.all;
 
-entity wold_tan_trng_tb is
+entity trojaned_trng_tb is
   --port (
   --clock
   --) ;
-end entity; -- wold_tan_trng_tb
+end entity; -- trojaned_trng_tb
 
-architecture beh of wold_tan_trng_tb is
+architecture beh of trojaned_trng_tb is
   constant CLK_PERIOD : time := 10 ns;
 
   signal clk   : std_logic := '0';
