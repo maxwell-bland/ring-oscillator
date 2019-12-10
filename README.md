@@ -14,6 +14,19 @@ Goals for the Paper
 - ???
 - Profit!!!
 
+Results (Intermediate)
+----------------------
+
+- Show that it is possible to trojan ring oscillator
+  - Show that it is possible to control the phase of a ring oscillator in an FPGA
+    - Delay, Number of Inverters, Temperature, [Voltage]
+  - Show that it is possible to encode an arbitrary binary sequence as output from a controlled
+    TRNG with some number of ring oscillators
+
+Results (Final)
+---------------
+  - Pass DIEHARD and other randomness tests while maintaining the hardware trojan
+
 [Base TRNG Implementation stolen shamelessly from David R. Piegdon!](https://github.com/dpiegdon/ringoscillator)
 
 The Original Readme 
