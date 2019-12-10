@@ -109,11 +109,15 @@
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-  The entropy pool within the linux operating system is generated using a number of different sources, including disk access and keyboard stroke patters.
-  However, there is an additional entropy pool accessible via the \texttt{/dev/hwrng/} file.
-  This file is generate strictly from the entropy collected from vendor-specific hardware, which is commonly implemented by monitoring thermal noise on the chip.
-  We propose a novel attack leveraging microarchitectural \emph{twisting}.
-  Given a sufficiently moderated thermal temperature, we believe it is possible to influence the entropy readings of a HRNG chip, resulting in weak cryptographic guarantees. 
+  The entropy pool within the linux operating system is generated using a number of different sources,
+  including disk access and keyboard stroke patters.
+  However, there is an additional entropy pool accessible via the \verb|/dev/hwrng/| file.
+  This file is generate strictly from the entropy collected from vendor-specific hardware,
+  which is commonly implemented by monitoring thermal noise on the chip.
+  We propose a novel attack leveraging microarchitectural {\itshape twisting}.
+  Given a sufficiently moderated thermal temperature,
+  we believe it is possible to influence the entropy readings of a HRNG chip,
+  resulting in weak cryptographic guarantees.
 \end{abstract}
 
 %%
@@ -173,6 +177,23 @@
 
 \section{Introduction}
 
+In this paper, we demonstrate that it is possible to trojan a ring oscillator based TRNG.
+We show that it is possible to precisely control the phase of a ring osccillator in an FPGA.
+We do so by controlling delay propogation, the number of inverters, temperature, and voltage.
+This allows us to encode an arbitrary binary sequence as output from the TRNG.
+
+The assumed attacker model is of a malicious manufacturer.
+This manufacturer would like to bias cryptographic algorithms in a shared compute enviroment,
+extracting secrets via a hardware manipulation. 
+This attack, if successful, requires no additonal components to be added to the chip.
+It is dependent only upon wire lengths, and is thus robust to component-based hardware verification.
+
+To implement this trojaning attack, we built off of an existing implementation by Wold and Tan et al..
+We remove their specific modifications for phase sampling, notably storage of ring reads into registers.
+Thus, our TRNG represents the common paradigm of ring-oscillators sampled and XOR'd at each clock tick.
+This original implementation also had offsets in delay propogation for each ring, which we removed.
+This allowed us to more careful control the phase of each oscillator.
+
 \subsection{Related Work}
 
 There has been a wealth of work in attacking and defending hardware based True Random Number Generators (TRNGs). 
@@ -196,6 +217,10 @@ It would potentially also involve modeling the post-processing stage of the hard
 Furthermore, if we can show that this attack is possible on modern CPUs, we will investigate varying type of attacker models to see whether one requires physical access to the hardware.
 We will also see if the OS within an SGX attack model could set up similarly ideal environments conducive to the attack.
 
+\section{Implementation}
+
+
+
 \section{Evaluation}
 
 We will evaluate the effectiveness of the technique by considering its ultimate impact on the output of \texttt{/dev/hwrng/} as well as \texttt{/dev/random} and \texttt{/dev/urandom/}. 
@@ -214,15 +239,6 @@ The ``\verb|acmart|'' document class can be used to prepare articles
 for any ACM publication --- conference or journal, and for any stage
 of publication, from review to final ``camera-ready'' copy, to the
 author's own version, with {\itshape very} few changes to the source.
-
-\section{Template Overview}
-As noted in the introduction, the ``\verb|acmart|'' document class can
-be used to prepare many different kinds of documentation --- a
-double-blind initial submission of a full-length technical paper, a
-two-page SIGGRAPH Emerging Technologies abstract, a ``camera-ready''
-journal article, a SIGCHI Extended Abstract, and more --- all by
-selecting the appropriate {\itshape template style} and {\itshape
-  template parameters}.
 
 This document will explain the major features of the document
 class. For further information, the {\itshape \LaTeX\ User's Guide} is
