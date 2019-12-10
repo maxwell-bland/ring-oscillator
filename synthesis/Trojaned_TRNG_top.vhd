@@ -19,7 +19,7 @@ end entity; -- wold_tan_trng_top
 architecture rtl of wold_tan_trng_top is
   constant C_COUNTER_WIDTH : integer := 26; --  >1 sec @ 50 MHz
 
-  component Wold_Tan_TRNG is
+  component Trojaned_TRNG is
     generic (
       G_INVERTER_DEPTH : positive :=  3;
       G_N_RINGS        : positive := 50
@@ -29,7 +29,7 @@ architecture rtl of wold_tan_trng_top is
       rst_n    : in  std_logic;
       bit_out  : out std_logic
     );
-  end component; -- Wold_Tan_TRNG
+  end component; -- Trojaned_TRNG
  
   component pll0 is
     port (
@@ -99,7 +99,7 @@ begin
   end process; -- count_proc
 
   -- The true number generator
-  u0_trng : Wold_Tan_TRNG
+  u0_trng : Trojaned_TRNG
     generic map (
       G_INVERTER_DEPTH =>   3,
       G_N_RINGS        =>  50

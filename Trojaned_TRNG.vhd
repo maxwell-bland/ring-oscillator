@@ -6,7 +6,7 @@ library ieee;
 -- Wold and Tan, "Analysis and Enhancement of Random Number Generator in FPGA
 -- Based on Oscillator Rings," International Journal of Reconfigurable
 -- Computing, Volume 2009, doi: http://dx.doi.org/10.1155/2009/501672.
-entity Wold_Tan_TRNG is
+entity Trojaned_TRNG is
   generic (
     -- The number of inverters in each oscillator loop. A lower number gives a
     -- higher average frequency since the signal has to propagate a shorter
@@ -21,9 +21,9 @@ entity Wold_Tan_TRNG is
     rst_n    : in  std_logic;
     bit_out  : out std_logic
   );
-end entity; -- Wold_Tan_TRNG
+end entity; -- Trojaned_TRNG
 
-architecture rtl of Wold_Tan_TRNG is
+architecture rtl of Trojaned_TRNG is
 
   constant C_PROP_DELAY : time := 9.837 ps;
 

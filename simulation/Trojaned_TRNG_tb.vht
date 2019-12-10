@@ -15,7 +15,7 @@ architecture beh of wold_tan_trng_tb is
   signal clk   : std_logic := '0';
   signal rst_n : std_logic := '0';
 
-  component Wold_Tan_TRNG is
+  component Trojaned_TRNG is
     generic (
       G_INVERTER_DEPTH : positive :=  3;
       G_N_RINGS        : positive := 50
@@ -25,7 +25,7 @@ architecture beh of wold_tan_trng_tb is
       rst_n    : in  std_logic;
       bit_out  : out std_logic
     );
-  end component; -- Wold_Tan_TRNG
+  end component; -- Trojaned_TRNG
 
   function realabs(val : real) return real is
   begin
@@ -116,7 +116,7 @@ begin
     transition_deviation_log <= log(realmax(transition_deviation, 0.00000001));
   end process ; -- transition_stat_proc
 
-  u0_trng : Wold_Tan_TRNG
+  u0_trng : Trojaned_TRNG
     generic map (
       G_INVERTER_DEPTH =>  3,
       G_N_RINGS        => 50
