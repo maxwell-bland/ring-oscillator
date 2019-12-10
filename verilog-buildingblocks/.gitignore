@@ -1,9 +1,0 @@
-*.asc
-*.blif
-*.json
-*.rpt
-*.bin
-*_tb.test
-*_tb.vcd
-*.swp
-.*.swp
