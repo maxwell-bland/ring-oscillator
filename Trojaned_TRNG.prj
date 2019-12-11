@@ -1,0 +1,2 @@
+verilog Trojaned_TRNG Trojaned_TRNG.vhd
+verilog Trojaned_TRNG_top synthesis/Trojaned_TRNG_top.vhd
