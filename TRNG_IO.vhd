@@ -54,28 +54,13 @@ architecture rtl of TRNG_IO is
   signal sysclk : std_logic := '0';
   signal rst : std_logic := '0';
   signal w_ready : std_logic;
-  signal transmit : std_logic := '0';
-  signal transmit_active : std_logic;
-  signal transmit_byte : STD_LOGIC_VECTOR(7 downto 0);
   signal out_cnt : STD_LOGIC_VECTOR(G_SZ_FREQ - 1 downto 0);
-  signal out_working : std_logic_vector(G_SZ_FREQ - 1 downto 0);
-  signal place : integer := 0;
-  signal insertNewLine : std_logic := '0';
-  
+
   COMPONENT ila_results PORT (
     clk    : in  STD_ULOGIC;
     probe0 : in   STD_ULOGIC_VECTOR(G_SZ_FREQ - 1 downto 0);
     probe1 : in   STD_ULOGIC );
   END COMPONENT;
---    function Bin2Hexascii (
---    signal binary : std_logic_vector(3 downto 0))
---    return std_logic_vector is
---    variable v_temp : std_logic_vector(7 downto 0);
---  begin
---    v_temp := std_logic_vector((unsigned(X"0" & binary) + 65));
---    return v_temp;
-    
---  end Bin2Hexascii;
   
   signal clear_cycle : std_logic := '0';
 begin
@@ -104,7 +89,7 @@ begin
     write_enb => w_ready
   );
   
-  process
+  process(sysclk)
   begin
     if rising_edge(sysclk) then
       if w_ready = '1' then
@@ -126,40 +111,4 @@ begin
     probe0 => std_ulogic_vector(out_cnt),
     probe1 => std_ulogic(w_ready)
   );
-
---  UART_Transmit : entity work.UART_TX(rtl) port map (
---    i_Clk       =>  sysclk,
---    i_TX_DV     =>  transmit,
---    i_TX_Byte   =>  transmit_byte,
---    o_TX_Active =>  transmit_active,
---    o_TX_Serial =>  usb_rx,
---    o_TX_Done   =>  open
---  );
-
-
---  process 
---  begin
---    if w_ready = '1' and transmit_active = '0' then
---      transmit <= '1';
-
---      if insertNewLine = '1' then
---        insertNewLine <= '0';
---        transmit_byte <= X"0A";  --X"A" is \n in ascii
---      else
---        out_working <= std_logic_vector(shift_right(unsigned(out_cnt), place * 4)) AND X"000000000000000F";
-----        out_working <= X"000000000000000A";
---        transmit_byte <=  Bin2Hexascii(out_working(3 downto 0));
-      
---        if place = 15 then
---          insertNewLine <= '1';
---          place <= 0;
---        else 
---          place <= place + 1;
---        end if;
---      end if;
-      
---     else
---      transmit <= '0';
---    end if;
---  end process;
 end rtl;

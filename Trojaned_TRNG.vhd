@@ -40,8 +40,6 @@ begin
 --    oscillator_ring(i)(1) <= not oscillator_ring(i)(0); 
 --    oscillator_ring(i)(2) <= not oscillator_ring(i)(1); 
 --  end generate;
-  
-  
 
   TFF_0 : entity work.TFlipFlop(rtl) port map (
            CLK => sysclk,--not oscillator_ring(0)(2),
@@ -59,7 +57,7 @@ begin
            Q => intermediate(i),
            CLK_enable => not intermediate(i-1) 
    );
- end generate;
+   end generate;
  
  counter_out <= intermediate;
 

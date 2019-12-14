@@ -21,7 +21,7 @@ end TRNG_Controller;
 
 architecture rtl of TRNG_Controller is
   signal w_ready : std_logic := '0';
-  signal snap_cnt : STD_LOGIC_VECTOR(G_SNAP_FREQ - 1 downto 0) := X"00000000";
+  signal snap_cnt : integer := 0;
   signal out_cnt : STD_LOGIC_VECTOR(G_N_TFF - 1 downto 0) :=  X"0000000000000000";
 begin
   
@@ -31,12 +31,12 @@ begin
     counter_out => out_cnt
   );
   
-  process
+  process(sysclk)
   begin
     if rising_edge(sysclk) then
       snap_cnt <= snap_cnt + 1;
       if rst = '1' then
-         snap_cnt <= X"00000000";
+         snap_cnt <= 0;
          w_ready <= '0'; 
       end if;
  
