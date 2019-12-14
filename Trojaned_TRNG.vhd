@@ -24,10 +24,10 @@ architecture rtl of Trojaned_TRNG is
   signal oscillator_ring : oscillator_ring_ary_t(G_N_RINGS-1 downto 0) := ( 0 => "000" );
   
   
---  attribute keep: boolean;
---  attribute keep of oscillator_ring: signal is true;  
-  attribute dont_touch: boolean;
-  attribute dont_touch of oscillator_ring: signal is true;
+  attribute keep: boolean;
+  attribute keep of oscillator_ring: signal is true;  
+--  attribute dont_touch: boolean;
+--  attribute dont_touch of oscillator_ring: signal is true;
 
   signal ring_reg_out    : std_logic_vector(G_N_RINGS-1 downto 0) := "0";
   signal intermediate : std_logic_vector(G_N_TFF - 1 downto 0) := X"0000000000000000";

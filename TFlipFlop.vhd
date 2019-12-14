@@ -40,7 +40,7 @@ entity TFlipFlop is
 end TFlipFlop;
 
 architecture rtl of TFlipFlop is
-   signal  temp: std_logic;
+   signal  temp: std_logic := '0';
 
 begin
 

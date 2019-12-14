@@ -77,6 +77,7 @@ architecture rtl of TRNG_IO is
     
 --  end Bin2Hexascii;
   
+  signal clear_cycle : std_logic := '0';
 begin
   sysclk <= not sysclk after 10 ns;
 --  IBUFDS_inst : IBUFDS
@@ -103,11 +104,28 @@ begin
     write_enb => w_ready
   );
   
---  ila : ila_results port map (
---    clk => std_ulogic(sysclk),
---    probe0 => std_ulogic_vector(out_cnt),
---    probe1 => std_ulogic(w_ready)
---  );
+  process
+  begin
+    if rising_edge(sysclk) then
+      if w_ready = '1' then
+        if clear_cycle = '0' then
+          clear_cycle <= '1';
+        elsif clear_cycle = '1' then
+          rst <= '1';
+        elsif rst = '1' and clear_cycle = '1' then
+          clear_cycle <= '0';
+        end if;
+      else
+        rst <= '0';
+      end if;
+    end if;
+  end process;
+  
+  ila : ila_results port map (
+    clk => std_ulogic(sysclk),
+    probe0 => std_ulogic_vector(out_cnt),
+    probe1 => std_ulogic(w_ready)
+  );
 
 --  UART_Transmit : entity work.UART_TX(rtl) port map (
 --    i_Clk       =>  sysclk,
