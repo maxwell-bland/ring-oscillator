@@ -60,7 +60,18 @@ architecture rtl of TRNG_IO is
   signal out_cnt : STD_LOGIC_VECTOR(G_SZ_FREQ - 1 downto 0);
   signal out_working : std_logic_vector(G_SZ_FREQ - 1 downto 0);
   signal place : integer := 0;
-  signal insertNewLine : std_logic := 0;
+  signal insertNewLine : std_logic := '0';
+  
+    function Bin2Hexascii (
+    signal binary : std_logic_vector(3 downto 0))
+    return std_logic_vector is
+    variable v_temp : std_logic_vector(7 downto 0);
+  begin
+    v_temp := std_logic_vector((unsigned(X"0" & binary) + 65));
+    return v_temp;
+    
+  end Bin2Hexascii;
+  
 begin
   IBUFDS_inst : IBUFDS
   generic map (
@@ -95,30 +106,22 @@ begin
     o_TX_Done   =>  open
   );
 
-  function Bin2Hexascii (
-    signal binary : std_logic_vector(3 downto 0)
-    return std_logic_vector is
-    variable v_temp : std_logic_vector(7 downto 0)
-  begin
-    v_temp = std_logic_vector((unsigned(binary) + 65));
-    return std_logic_vector(v_temp);
-    
-  end Bin2Hexascii;
-  
+
   process 
   begin
     if w_ready = '1' and transmit_active = '0' then
       transmit <= '1';
 
-      if insertNewLine = 1 then
-        insertNewLine <= 0;
-        transmit_byte <= X"A";  --X"A" is \n in ascii
+      if insertNewLine = '1' then
+        insertNewLine <= '0';
+        transmit_byte <= X"0A";  --X"A" is \n in ascii
       else
-        out_working <= Bin2Hexascii(std_logic_vector(shift_right(unsigned(out_cnt), place * 4)) AND X"000000000000000F");
-        transmit_byte <= out_working(7 downto 0);
+        out_working <= std_logic_vector(shift_right(unsigned(out_cnt), place * 4)) AND X"000000000000000F";
+--        out_working <= X"000000000000000A";
+        transmit_byte <=  Bin2Hexascii(out_working(3 downto 0));
       
         if place = 15 then
-          insertNewLine <= 1;
+          insertNewLine <= '1';
           place <= 0;
         else 
           place <= place + 1;
