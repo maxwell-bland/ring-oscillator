@@ -24,29 +24,29 @@ architecture rtl of Trojaned_TRNG is
   signal oscillator_ring : oscillator_ring_ary_t(G_N_RINGS-1 downto 0) := ( 0 => "000" );
   
   
-  attribute keep: boolean;
-  attribute keep of oscillator_ring: signal is true;  
---  attribute dont_touch: boolean;
---  attribute dont_touch of oscillator_ring: signal is true;
+--  attribute keep: boolean;
+--  attribute keep of oscillator_ring: signal is true;  
+  attribute dont_touch: boolean;
+  attribute dont_touch of oscillator_ring: signal is true;
 
   signal ring_reg_out    : std_logic_vector(G_N_RINGS-1 downto 0) := "0";
   signal intermediate : std_logic_vector(G_N_TFF - 1 downto 0) := X"0000000000000000";
 begin
 
   -- Generate oscillator rings in parallel
---  gen_oscillator_rings : for i in 0 to G_N_RINGS-1 generate
---    -- Connect the oscillator rings in a loop (moving downward). The output (bottom) is also connected to the reset.
---    oscillator_ring(i)(0) <= not oscillator_ring(i)(2);
---    oscillator_ring(i)(1) <= not oscillator_ring(i)(0); 
---    oscillator_ring(i)(2) <= not oscillator_ring(i)(1); 
---  end generate;
+  gen_oscillator_rings : for i in 0 to G_N_RINGS-1 generate
+    -- Connect the oscillator rings in a loop (moving downward). The output (bottom) is also connected to the reset.
+    oscillator_ring(i)(0) <= not oscillator_ring(i)(2);
+    oscillator_ring(i)(1) <= not oscillator_ring(i)(0); 
+    oscillator_ring(i)(2) <= not oscillator_ring(i)(1); 
+  end generate;
 
   TFF_0 : entity work.TFlipFlop(rtl) port map (
-           CLK => sysclk,--not oscillator_ring(0)(2),
+           CLK => not oscillator_ring(0)(0),
            RESET => rst,
            T => '1',
            Q => intermediate(0),
-           CLK_enable => sysclk
+           CLK_enable => '1'
   );  
   
    gen_TFF : for i in 1 to G_N_TFF - 1 generate
@@ -55,10 +55,10 @@ begin
            RESET => rst,
            T => '1',
            Q => intermediate(i),
-           CLK_enable => not intermediate(i-1) 
+           CLK_enable => '1' 
    );
    end generate;
  
- counter_out <= intermediate;
+   counter_out <= intermediate;
 
 end architecture; -- rtl

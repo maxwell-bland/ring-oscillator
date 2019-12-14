@@ -64,23 +64,22 @@ architecture rtl of TRNG_IO is
   
   signal clear_cycle : std_logic := '0';
 begin
-  sysclk <= not sysclk after 10 ns;
---  IBUFDS_inst : IBUFDS
---  generic map (
---    DIFF_TERM => FALSE,
---    IBUF_LOW_PWR => TRUE, 
---    IOSTANDARD => "DEFAULT")
---  port map (
---    O => sysclk_ds, 
---    I => sysclk_p, 
---    IB => sysclk_n 
---  );
+  IBUFDS_inst : IBUFDS
+  generic map (
+    DIFF_TERM => FALSE,
+    IBUF_LOW_PWR => TRUE, 
+    IOSTANDARD => "DEFAULT")
+  port map (
+    O => sysclk_ds, 
+    I => sysclk_p, 
+    IB => sysclk_n 
+  );
   
---  BUFG_inst : BUFG
---  port map (
---     O => sysclk,
---     I => sysclk_ds 
---  );
+  BUFG_inst : BUFG
+  port map (
+     O => sysclk,
+     I => sysclk_ds 
+  );
   
   TRNG_Controller : entity work.TRNG_Controller(rtl) port map (
     rst => rst,

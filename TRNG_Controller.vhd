@@ -40,8 +40,7 @@ begin
          w_ready <= '0'; 
       end if;
  
---      if snap_cnt = X"0BEBC200" then
-      if snap_cnt = X"00000200" then
+      if snap_cnt = X"0BEBC200" then
         freq_out <= out_cnt;
         w_ready <= '1';
       end if;
