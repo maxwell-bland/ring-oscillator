@@ -60,6 +60,7 @@ architecture rtl of TRNG_IO is
   signal out_cnt : STD_LOGIC_VECTOR(G_SZ_FREQ - 1 downto 0);
   signal out_working : std_logic_vector(G_SZ_FREQ - 1 downto 0);
   signal place : integer := 0;
+  signal insertNewLine : std_logic := 0;
 begin
   IBUFDS_inst : IBUFDS
   generic map (
@@ -108,16 +109,23 @@ begin
   begin
     if w_ready = '1' and transmit_active = '0' then
       transmit <= '1';
+
+      if insertNewLine = 1 then
+        insertNewLine <= 0;
+        transmit_byte <= X"A";  --X"A" is \n in ascii
+      else
+        out_working <= Bin2Hexascii(std_logic_vector(shift_right(unsigned(out_cnt), place * 4)) AND X"000000000000000F");
+        transmit_byte <= out_working(7 downto 0);
       
-      out_working <= std_logic_vector(shift_right(unsigned(out_cnt), place * 8)) AND X"00000000000000FF";
-      transmit_byte <= out_working(7 downto 0);
-      
-      if place = 7 then
-        place <= 0;
-      else 
-        place <= place + 1;
+        if place = 15 then
+          insertNewLine <= 1;
+          place <= 0;
+        else 
+          place <= place + 1;
+        end if;
       end if;
-    else
+      
+     else
       transmit <= '0';
     end if;
   end process;
