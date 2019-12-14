@@ -93,6 +93,16 @@ begin
     o_TX_Serial =>  usb_rx,
     o_TX_Done   =>  open
   );
+
+  function Bin2Hexascii (
+    signal binary : std_logic_vector(3 downto 0)
+    return std_logic_vector is
+    variable v_temp : std_logic_vector(7 downto 0)
+  begin
+    v_temp = std_logic_vector((unsigned(binary) + 65));
+    return std_logic_vector(v_temp);
+    
+  end Bin2Hexascii;
   
   process 
   begin
