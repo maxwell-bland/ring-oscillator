@@ -1,33 +1,19 @@
-Burning Down the House: Trojaning TRNGs with Reverse Fourier Transforms
+Burning Down the House: HDL Implementation of a TRNG Ring Oscillator
 =======================================================================
 
 By the Blink Corporation
 
-Goals for the Paper
--------------------
+About this Repository
+---------------------
 
-- Implement a ring oscillator
-- Sample the ring oscillator in a predictable manner
-- See if we can do it with two independent oscillators
-- See if we can do it with forty
-- Trojan predictable ring oscillator behavior at particular temperatures
-- ???
-- Profit!!!
+This code:
+- Implements a ring oscillator in VHDL.
 
-Results (Intermediate)
-----------------------
+By modifying the layout of the gates on an FPGA, you can see a modification 
+to the oscillation. 
 
-- Show that it is possible to trojan ring oscillator
-  - Show that it is possible to control the phase of a ring oscillator in an FPGA
-    - Delay, Number of Inverters, Temperature, [Voltage]
-  - Show that it is possible to encode an arbitrary binary sequence as output from a controlled
-    TRNG with some number of ring oscillators
-
-Results (Final)
----------------
-  - Pass DIEHARD and other randomness tests while maintaining the hardware trojan
-
-Repository Organization
------------------------
+It may be an interesting project to se if you can bias the oscillations 
+in a predictable manner, and thus have a "gateless" hardware trojan for
+TRNGs.
 
 `Trojaned_TRNG.vhd` contains the top-level definition for the trojaned ring oscillator.
