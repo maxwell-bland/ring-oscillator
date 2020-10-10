@@ -1,7 +1,7 @@
 Burning Down the House: HDL Implementation of a TRNG Ring Oscillator
 =======================================================================
 
-By the Blink Corporation
+By the Blink Corporation (code written via pair programming).
 
 About this Repository
 ---------------------
